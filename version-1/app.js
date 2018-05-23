@@ -1,0 +1,53 @@
+const express = require('express')
+const cors = require('cors')
+
+const cohorts = [
+    { 
+        id: 1,
+        cohortName: "17-01-WD-DP",
+        cohortCode: "g100",
+        numberOfStudents: 28
+    }, {
+        id: 2,
+        cohortName: "17-01-DS-GT",
+        cohortCode: "g105",
+        numberOfStudents: 24
+    }, {
+        id: 3,
+        cohortName: "17-02-WD-PX",
+        cohortCode: "g109",
+        numberOfStudents: 30
+    }, {
+        id: 4,
+        cohortName: "17-03-WD-BD",
+        cohortCode: "g110",
+        numberOfStudents: 29
+    }, 
+]
+
+function findById(data, id) {
+    return data.filter(key => key.id === id)
+}
+
+const app = express()
+app.use(cors());
+
+app.get("/", (request, response) => {
+    response.json({ data: cohorts });
+});
+
+app.get("/:id", (request, response) => {
+    var cohortId = findById(cohorts, request.params.id);
+    if (!cohortId) {
+        response.status = 404;
+        response.json({
+            error: {
+                message: "No record found!"
+            }
+        });
+    }
+
+    response.json({ data: cohortId });
+});
+
+app.listen(3000)
