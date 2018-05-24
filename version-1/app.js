@@ -26,7 +26,12 @@ const cohorts = [
 ]
 
 function findById(data, id) {
-    return data.filter(key => key.id === id)
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].id == id) {
+            return data[i];
+        }
+    }
+    return null;
 }
 
 const app = express()
